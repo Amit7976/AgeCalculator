@@ -2,41 +2,40 @@
 let result = document.getElementById('year')
 
 function show() {
-    let dob = document.getElementById('dob').value
-    let d = new Date(dob)
-    year = d.getFullYear();
-    month = d.getMonth() + 1;
-    day = d.getDate();
-    
-    let cd = new Date()
-    cyear = cd.getFullYear()
-    cmonth = cd.getMonth() + 1
-    cday = cd.getDate()
+  let dob = document.getElementById('dob').value;
+  let d = new Date(dob);
+  let year = d.getFullYear();
+  let month = d.getMonth() + 1; // Months are zero-indexed
+  let day = d.getDate();
 
-    let ageYear = cyear - year
-    let ageMonth = Math.abs(month - cmonth)
-    let ageDay = Math.abs(day - cday)
-    if (ageYear <= 9) {
-        ageYear = '0' + ageYear 
-    }
-    else {
-        ageYear = ageYear
-    }
-    if (ageMonth <= 9) {
-        ageMonth = '0' + ageMonth 
-    }
-    else {
-        ageMonth = ageMonth
-    }
-    if (ageDay <= 9) {
-        ageDay = '0' + ageDay 
-    }
-    else {
-        ageDay = ageDay
-    }
-    document.getElementById('year').innerText = ageYear;
-    document.getElementById("month").innerText = ageMonth;
-    document.getElementById('day').innerText = ageDay;
+  let cd = new Date();
+  let cyear = cd.getFullYear();
+  let cmonth = cd.getMonth() + 1;
+  let cday = cd.getDate();
+
+  let ageYear = cyear - year;
+  let ageMonth = cmonth - month;
+  let ageDay = cday - day;
+
+  // Adjust for when the current month/day is before the birth month/day
+  if (ageDay < 0) {
+    ageMonth--;
+    ageDay += new Date(cyear, cmonth - 1, 0).getDate(); // Days in previous month
+  }
+
+  if (ageMonth < 0) {
+    ageYear--;
+    ageMonth += 12;
+  }
+
+  // Format to two digits
+  ageYear = ageYear < 10 ? '0' + ageYear : ageYear;
+  ageMonth = ageMonth < 10 ? '0' + ageMonth : ageMonth;
+  ageDay = ageDay < 10 ? '0' + ageDay : ageDay;
+
+  document.getElementById('year').innerText = ageYear;
+  document.getElementById("month").innerText = ageMonth;
+  document.getElementById('day').innerText = ageDay;
 
 
     let img = document.getElementById('img')
